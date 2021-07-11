@@ -1,50 +1,54 @@
-<template>
-  <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
+<template lang="pug">
+  v-app
+    v-app-bar(app color="black" dark)
+      div.d-flex.align-center
+        v-img(
+          alt="Logo"
           class="shrink mr-2"
           contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+          src="../public/logo-dark.jpg"
           transition="scale-transition"
-          width="40"
-        />
+          width="60"
+        )
+        h3(id="titleText") Global Defense Initiative
+      v-spacer
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <v-main>
-      <router-view />
-    </v-main>
-  </v-app>
+      v-btn(
+        id="login"
+        :to="{ name: 'login' }"
+      ) NETWORK LOGIN
+    v-main
+      router-view
+        v-container
+          v-layout
+            v-flex(height="100%")
 </template>
 
 <script>
 export default {
   name: "App",
-
   data: () => ({
     //
   }),
 };
 </script>
+
+<style scoped>
+@font-face {
+  font-family: "squareOne";
+  src: url("./assets/fonts/SquareOne.ttf");
+}
+
+@font-face {
+  font-family: "squareOneBold";
+  src: url("./assets/fonts/SquareOneBold.ttf");
+}
+
+#titleText {
+  font-family: "squareOneBold"
+}
+
+#login {
+  font-family: "squareOne";
+}
+</style>
