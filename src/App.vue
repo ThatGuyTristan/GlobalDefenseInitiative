@@ -15,7 +15,7 @@
 
       v-btn(
         id="login"
-        :to="{ name: 'login' }"
+        :to="{ name: 'Login' }"
       ) NETWORK LOGIN
     v-main
       router-view
