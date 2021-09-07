@@ -7,14 +7,17 @@
           v-text-field(v-model="password" label="Password")
         v-card-actions
           v-spacer
+          SignUp
           v-btn(@click="login") Connect
+          v-spacer
 </template>
 
 <script>
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import SignUp from "@/views/SignUp"
 
 export default { 
   name: "Login",
+  components: { SignUp },
   data: () => ({
     username: null, 
     password: null
@@ -27,5 +30,6 @@ export default {
       })
     }
   }
-}</script>
+}
+</script>
 
