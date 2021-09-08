@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import axios from "@/axios-auth";
 
 export default {
     name: "SignUp",
@@ -25,20 +24,8 @@ export default {
         password: null
     }),
     methods: {
-        submit(){
-            axios.post('accounts:signUp',
-                {
-                    email: this.email,
-                    password: this.password,
-                    returnSecureToken: true
-                })
-                .then((resp) => {
-                    console.log(resp)
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-            
+        submit(){ 
+            this.$store.dispatch('signUp', { email: this.email, password: this.password })
         }
     }
 }

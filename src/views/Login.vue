@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import axios from "axios" 
 import SignUp from "@/views/SignUp"
 
 export default { 
