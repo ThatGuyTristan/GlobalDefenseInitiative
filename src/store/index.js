@@ -11,7 +11,12 @@ export default new Vuex.Store({
     userId: null,
     key: process.env.VUE_APP_FIREBASE_API_KEY
   },
-  mutations: {},
+  mutations: {
+    authUser(state, userData){
+      state.idToken = userData.token
+      state.userId = userData.userId
+    }
+  },
   actions: {
     signUp({commit}, authData){
       axios.post(`accounts:signUp?key=${this.state.key}`,{ 
@@ -21,6 +26,10 @@ export default new Vuex.Store({
       })
       .then((resp) => {
           console.log(resp)
+          commit('authUser', { 
+            token: resp.data.idToken,
+            userId: resp.data.localId
+          })
       })
       .catch((err) => {
           console.log(err)
@@ -31,8 +40,14 @@ export default new Vuex.Store({
         email: authData.email,
         password: authData.password,
         returnSecureToken: true
-
       })
+        .then((resp) => {
+          console.log(resp.data)
+          commit('authUser', { 
+            token: resp.data.idToken,
+            userId: resp.data.localId
+          })
+        })
 
     }
   },
