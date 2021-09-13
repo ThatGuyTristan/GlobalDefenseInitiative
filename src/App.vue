@@ -45,11 +45,11 @@ export default {
 }
 
 #main {
-  background: linear-gradient(green, black)
+  background: linear-gradient(green, black);
 }
 
 #titleText {
-  font-family: "squareOneBold"
+  font-family: "squareOneBold";
 }
 
 #login {

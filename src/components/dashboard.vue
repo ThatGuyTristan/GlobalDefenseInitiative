@@ -5,17 +5,16 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
-    computed: {
-        user() {
-            return !this.$store.getters.user ? false : this.$store.getters.user
-        }
+  computed: {
+    user() {
+      return !this.$store.getters.user ? false : this.$store.getters.user;
     },
-    created() {
-        this.$store.dispatch('findUser')
-    }
-}
-
+  },
+  created() {
+    this.$store.dispatch("findUser");
+  },
+};
 </script>

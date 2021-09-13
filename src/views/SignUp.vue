@@ -15,18 +15,20 @@
 </template>
 
 <script>
-
 export default {
-    name: "SignUp",
-    data: () => ({
-        dialog: false,
-        email: null,
-        password: null
-    }),
-    methods: {
-        submit(){ 
-            this.$store.dispatch('signUp', { email: this.email, password: this.password })
-        }
-    }
-}
+  name: "SignUp",
+  data: () => ({
+    dialog: false,
+    email: null,
+    password: null,
+  }),
+  methods: {
+    submit() {
+      this.$store.dispatch("signUp", {
+        email: this.email,
+        password: this.password,
+      });
+    },
+  },
+};
 </script>

@@ -13,24 +13,23 @@
 </template>
 
 <script>
-import axios from "axios" 
-import SignUp from "@/views/SignUp"
+import axios from "axios";
+import SignUp from "@/views/SignUp";
 
-export default { 
+export default {
   name: "Login",
   components: { SignUp },
   data: () => ({
-    username: null, 
-    password: null
+    username: null,
+    password: null,
   }),
   methods: {
     login() {
-      this.$store.dispatch('login', {
+      this.$store.dispatch("login", {
         email: this.username,
-        password: this.password
-      })
-    }
-  }
-}
+        password: this.password,
+      });
+    },
+  },
+};
 </script>
-

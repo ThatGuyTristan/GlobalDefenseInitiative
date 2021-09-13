@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import store from "../store"
+import store from "../store";
 
 Vue.use(VueRouter);
 
@@ -22,13 +22,13 @@ const routes = [
     name: "Dashboard",
     component: () =>
       import(/* webpackChunkName: "dashboard" */ "../components/dashboard.vue"),
-    beforeEnter(to, from, next){
-      if (store.state.idToken){
-        next()
+    beforeEnter(to, from, next) {
+      if (store.state.idToken) {
+        next();
       } else {
-        next('/login')
+        next("/login");
       }
-    }
+    },
   },
 ];
 

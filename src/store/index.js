@@ -11,83 +11,87 @@ export default new Vuex.Store({
     idToken: null,
     userId: null,
     user: null,
-    key: process.env.VUE_APP_FIREBASE_API_KEY
+    key: process.env.VUE_APP_FIREBASE_API_KEY,
   },
   mutations: {
-    authUser(state, userData){
-      state.idToken = userData.token
-      state.userId = userData.userId
+    authUser(state, userData) {
+      state.idToken = userData.token;
+      state.userId = userData.userId;
     },
-    storeUser(state, user){
-      state.user = user 
-    }
+    storeUser(state, user) {
+      state.user = user;
+    },
   },
   actions: {
-    signUp({commit, dispatch}, authData){
-      axiosAuth.post(`accounts:signUp?key=${this.state.key}`,{ 
-        email: authData.email,
-        password: authData.password,
-        returnSecureToken: true
-      })
-      .then((resp) => {
-          console.log(resp)
-          commit('authUser', { 
+    signUp({ commit, dispatch }, authData) {
+      axiosAuth
+        .post(`accounts:signUp?key=${this.state.key}`, {
+          email: authData.email,
+          password: authData.password,
+          returnSecureToken: true,
+        })
+        .then((resp) => {
+          console.log(resp);
+          commit("authUser", {
             token: resp.data.idToken,
-            userId: resp.data.localId
-          })
-          dispatch('storeUser', { authData })
-      })
-      .catch((err) => {
-          console.log(err)
-      })
+            userId: resp.data.localId,
+          });
+          dispatch("storeUser", { authData });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
-    storeUser ({commit, state}, userData) {
-      if (!state.idToken){
-        return
+    storeUser({ commit, state }, userData) {
+      if (!state.idToken) {
+        return;
       }
-      axios.post(`/users.json?auth=${state.idToken}`, userData)
-      .then(resp => console.log(resp))
-      .catch(err => console.log(err))
+      axios
+        .post(`/users.json?auth=${state.idToken}`, userData)
+        .then((resp) => console.log(resp))
+        .catch((err) => console.log(err));
     },
-    findUser({commit, state}) {
-      if (!state.idToken){
-        return
+    findUser({ commit, state }) {
+      if (!state.idToken) {
+        return;
       }
-      axios.get(`/users.json?auth=${state.idToken}`)
-        .then(resp => {
-          console.log("res", resp)
-          const data = resp.data
-          const users = []
+      axios
+        .get(`/users.json?auth=${state.idToken}`)
+        .then((resp) => {
+          console.log("res", resp);
+          const data = resp.data;
+          const users = [];
 
           for (let key in data) {
-            const user = data[key]
-            users.push(user)
+            const user = data[key];
+            users.push(user);
           }
-          console.log(users)
-          commit('storeUser', users[0])
+          console.log(users);
+          commit("storeUser", users[0]);
         })
-        .catch(err => console.log(err))
+        .catch((err) => console.log(err));
     },
-    login({commit}, authData){
-      axiosAuth.post(`accounts:signInWithPassword?key=${this.state.key}`, {
-        email: authData.email,
-        password: authData.password,
-        returnSecureToken: true
-      })
-        .then((resp) => {
-          console.log(resp.data)
-          commit('authUser', { 
-            token: resp.data.idToken,
-            userId: resp.data.localId
-          })
-          router.push('/dashboard')
+    login({ commit }, authData) {
+      axiosAuth
+        .post(`accounts:signInWithPassword?key=${this.state.key}`, {
+          email: authData.email,
+          password: authData.password,
+          returnSecureToken: true,
         })
-    }
+        .then((resp) => {
+          console.log(resp.data);
+          commit("authUser", {
+            token: resp.data.idToken,
+            userId: resp.data.localId,
+          });
+          router.push("/dashboard");
+        });
+    },
   },
   getters: {
-    user (state){
-      return state.user
-    }
+    user(state) {
+      return state.user;
+    },
   },
   modules: {},
 });
