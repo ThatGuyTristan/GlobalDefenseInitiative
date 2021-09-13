@@ -4,6 +4,10 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 
+import axios from "axios"
+
+axios.defaults.baseURL = 'https://globaldefenseinitiative-154c8-default-rtdb.firebaseio.com/'
+
 Vue.config.productionTip = false;
 
 new Vue({
