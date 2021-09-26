@@ -10,6 +10,7 @@ export default new Vuex.Store({
   state: {
     idToken: null,
     userId: null,
+    email: null,
     user: null,
     key: process.env.VUE_APP_FIREBASE_API_KEY,
   },
@@ -21,6 +22,10 @@ export default new Vuex.Store({
     storeUser(state, user) {
       state.user = user;
     },
+    deleteToken(state){
+      state.idToken = null
+      state.user = null
+    }
   },
   actions: {
     signUp({ commit, dispatch }, authData) {
@@ -28,6 +33,7 @@ export default new Vuex.Store({
         .post(`accounts:signUp?key=${this.state.key}`, {
           email: authData.email,
           password: authData.password,
+          ambassador: 1,
           returnSecureToken: true,
         })
         .then((resp) => {
@@ -35,6 +41,7 @@ export default new Vuex.Store({
           commit("authUser", {
             token: resp.data.idToken,
             userId: resp.data.localId,
+            email: authData.email
           });
           dispatch("storeUser", { authData });
         })
@@ -66,8 +73,16 @@ export default new Vuex.Store({
             const user = data[key];
             users.push(user);
           }
+
           console.log(users);
-          commit("storeUser", users[0]);
+
+          const user = users.filter(obj => {
+            if(!obj.authData){ return }
+            return obj.authData.email === state.email 
+          })
+
+          console.log(user);
+          commit("storeUser", user);
         })
         .catch((err) => console.log(err));
     },
@@ -79,14 +94,19 @@ export default new Vuex.Store({
           returnSecureToken: true,
         })
         .then((resp) => {
-          console.log(resp.data);
+          console.log("USER", resp.data);
           commit("authUser", {
             token: resp.data.idToken,
             userId: resp.data.localId,
+            email: authData.email,
           });
-          router.push("/dashboard");
+          router.push({ name: "Dashboard" });
         });
     },
+    logOut({ commit }) {
+      console.log("Log out");
+      commit("deleteToken")
+    }
   },
   getters: {
     user(state) {

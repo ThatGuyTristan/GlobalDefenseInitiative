@@ -12,23 +12,29 @@
             width="60"
           )
         h3(id="titleText") Global Defense Initiative
+        div.ml-5
+          v-btn(text dark v-for="(route, i) in exteriorRoutes" :key="i" :to=" { name: route.destination }") {{ route.text }}
       v-spacer
-      v-btn(
-        id="login"
-        :to="{ name: 'Login' }"
-      ) NETWORK LOGIN
+      LogInButton
     v-main(id="main")
       router-view
+        v-navigation-drawer(permanent)
         v-container
           v-layout
             v-flex(height="100%")
 </template>
 
 <script>
+import LogInButton from "./components/logInButton"
+
 export default {
   name: "App",
+  components: { LogInButton },
   data: () => ({
-    //
+    exteriorRoutes: [
+      { text: "About", destination: "About" },
+      { text: "Contact", destination: "Contact" }
+    ]
   }),
 };
 </script>
@@ -50,9 +56,5 @@ export default {
 
 #titleText {
   font-family: "squareOneBold";
-}
-
-#login {
-  font-family: "squareOne";
 }
 </style>

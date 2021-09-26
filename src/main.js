@@ -11,6 +11,16 @@ axios.defaults.baseURL =
 
 Vue.config.productionTip = false;
 
+Vue.prototype.$loggedIn = store.state.idToken
+
+Vue.directive('loggedin', {
+  inserted(el, binding, vnode){
+    if(!this.$loggedIn){
+      vnode.elm.parentElement.removeChild(vnode.elm)
+    }
+  }
+})
+
 new Vue({
   router,
   store,
