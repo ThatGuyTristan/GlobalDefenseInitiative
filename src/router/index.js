@@ -1,7 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/exterior/Home.vue";
-import store from "../store";
 
 Vue.use(VueRouter);
 
@@ -31,14 +30,7 @@ const routes = [
     path: "/dashboard",
     name: "Dashboard",
     component: () =>
-      import(/* webpackChunkName: "dashboard" */ "../components/dashboard.vue"),
-    beforeEnter(to, from, next) {
-      if (store.state.idToken) {
-        next();
-      } else {
-        next("/login");
-      }
-    },
+      import(/* webpackChunkName: "dashboard" */ "../components/dashboard.vue")
   },
 ];
 
@@ -47,5 +39,15 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
+
+// router.beforeEach((to, from, next) => {
+//   const store = require('../store/index')
+//   console.log("pspspsp", store.getters.auth);
+//   if (!Vue.$store.getters.auth){
+//     next( { name: "Login" })
+//   }else { 
+//     next() 
+//   }
+// })
 
 export default router;

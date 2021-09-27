@@ -27,7 +27,10 @@ export default {
       this.$store.dispatch("login", {
         email: this.username,
         password: this.password,
-      });
+      }).then(() => {
+        this.$router.go({ name: "Dashboard" })
+      })
+      ;
     },
   },
 };

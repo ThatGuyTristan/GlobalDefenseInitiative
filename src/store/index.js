@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import axiosAuth from "@/axios-auth";
 import axios from "axios";
-import router from "../router/";
+import router from "../router"
 
 Vue.use(Vuex);
 
@@ -11,13 +11,16 @@ export default new Vuex.Store({
     idToken: null,
     userId: null,
     email: null,
+    ambassador: null,
     user: null,
     key: process.env.VUE_APP_FIREBASE_API_KEY,
   },
   mutations: {
     authUser(state, userData) {
+      console.log("US", userData)
       state.idToken = userData.token;
       state.userId = userData.userId;
+      state.ambassador = userData.ambassador
     },
     storeUser(state, user) {
       state.user = user;
@@ -33,7 +36,6 @@ export default new Vuex.Store({
         .post(`accounts:signUp?key=${this.state.key}`, {
           email: authData.email,
           password: authData.password,
-          ambassador: 1,
           returnSecureToken: true,
         })
         .then((resp) => {
@@ -58,7 +60,9 @@ export default new Vuex.Store({
         .then((resp) => console.log(resp))
         .catch((err) => console.log(err));
     },
+
     findUser({ commit, state }) {
+      console.log("ID", state.idToken);
       if (!state.idToken) {
         return;
       }
@@ -76,16 +80,18 @@ export default new Vuex.Store({
 
           console.log(users);
 
-          const user = users.filter(obj => {
-            if(!obj.authData){ return }
-            return obj.authData.email === state.email 
-          })
+          // const user = users.filter(obj => {
+          //   if(!obj.authData){ return }
+          //   return obj.authData.email === state.email 
+          // })
+          const user = users[users.length - 1]
 
-          console.log(user);
+          console.log("User here:", user);
           commit("storeUser", user);
         })
         .catch((err) => console.log(err));
     },
+
     login({ commit }, authData) {
       axiosAuth
         .post(`accounts:signInWithPassword?key=${this.state.key}`, {
@@ -98,13 +104,14 @@ export default new Vuex.Store({
           commit("authUser", {
             token: resp.data.idToken,
             userId: resp.data.localId,
-            email: authData.email,
+            ambassador: true,
+            email: resp.email,
           });
-          router.push({ name: "Dashboard" });
+          router.push({ name: "Dashboard" })
         });
     },
+
     logOut({ commit }) {
-      console.log("Log out");
       commit("deleteToken")
     }
   },
@@ -112,6 +119,12 @@ export default new Vuex.Store({
     user(state) {
       return state.user;
     },
+    ambassador(state){
+      return state.ambassador
+    },
+    auth(state){
+      return state.idToken
+    }
   },
   modules: {},
 });
