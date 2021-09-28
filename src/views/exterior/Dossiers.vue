@@ -6,12 +6,12 @@
         .caption These Soldier Profiles are visable to the public on a voluntary basis only.
     template(v-slot:body)
       v-row(no-gutters).text-center
-        SoldierDossier(v-for="(item, i) in items" :key="i" :id="item.id")
+        SoldierDossier(v-for="(item, i) in dossiers" :key="i" :id="item.id")
 </template>
 
 <script>
 import PrimaryLayout from "../layouts/Primary.vue"
-import axios from "axios"
+import { db } from "/src/db"
 
 export default {
   name: "About",
@@ -19,20 +19,34 @@ export default {
     PrimaryLayout, 
     SoldierDossier: () => import("/src/components/soldierDossier")},
   data: () => ({
-    items: []
+    dossiers: []
   }),
   beforeMount(){
-    axios
-      .get('dossiers.json')
-      .then((resp) => {
-        let items = []
-        for(let result in resp.data){
-          items.push(resp.data[result])
-        }
-        console.log(items)
-        this.items = items
-      })
-      .catch(error => console.log(error))
+    db.ref('dossiers').once('value', snapshot => {
+      const dossiers = snapshot.val()
+      this.dossiers.push(dossiers)
+
+      let items = []
+      for(let result in dossiers){
+        let item = dossiers[result]
+        item.id = result
+        console.log("AAAAAAH", item)
+        items.push(item)
+      }
+      this.dossiers = items
+      console.log("DOSSES", this.dossiers);
+    })
+    // axios
+    //   .get('dossiers.json')
+    //   .then((resp) => {
+    //     let items = []
+    //     for(let result in resp.data){
+    //       items.push(resp.data[result])
+    //     }
+    //     console.log(items)
+    //     this.items = items
+    //   })
+    //   .catch(error => console.log(error))
   }  
 };
 </script>

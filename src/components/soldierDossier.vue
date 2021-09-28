@@ -2,40 +2,36 @@
   v-dialog
     template(v-slot:activator="{ on }")
       v-card(v-on="on")
-        v-card-title {{ item.name }}
+        v-card-title {{ dossier.name }}
         v-card-text
-          v-img(:src="`/src/assets/images/${item.image}`")
+          v-img(:src="`/src/assets/images/${dossier.image}`")
     v-card
-      v-card-title {{ item.name }}
+      v-card-title {{ dossier.name }}
       v-card-text 
-        v-img(:src="`/src/assets/images/${item.image}`" contain)
+        v-img(:src="`/src/assets/images/${dossier.image}`" contain)
 </template>
 
 <script>
 import axios from "axios"
-import { getDatabse, ref, onValue } from "firebase/database"
+import { db } from "/src/db"
+
+const dossiers = db.ref('dossiers')
 
 export default {
   props: {
     id: { type: [String, Number], default: null }
   },
   data: () => ({
-    item: null
+    dossier: null
   }),
-  methods: {
-    load(){
-      console.log("Hello")
-      // const db = this.getDatabase();
-      // const dbRef = ref(db, `dossiers/` + this.id)
-      // onValue(dbRef, (snapshot) => {
-      //   const data = snapshot.val();
-      //   console.log("data", data)
-      // })
-    }
-  },
   beforeMount(){
-    this.load();
-  }
-}
+    db.ref('dossiers/' + this.id).once('value', snapshot => {
+      console.log("SS", snapshot.val())
+      const document = snapshot.val()
+      console.log("DOCUMENT", document);
+      this.dossier = document
+      })
 
+    }
+}
 </script>
