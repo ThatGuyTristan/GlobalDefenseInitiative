@@ -13,12 +13,16 @@
           )
         h3(id="titleText") Alumni MultiNational
         div.ml-5
-          v-btn(text dark v-for="(route, i) in exteriorRoutes" :key="i" :to=" { name: route.destination }") {{ route.text }}
+          AboutMenu
           v-btn.mx-2(text dark v-if="loggedIn" :to="{ name: 'AmbassadorDashboard' }") Ambassador Dashboard
       v-spacer
+      AdminButton(v-if="loggedIn")
       LogInButton
     AmbassadorNavigation(v-if="loggedIn")
-    v-main(id="main")  
+    v-main(id="main")
+      v-overlay(:value="overlay" opacity="1" color="black")
+        v-card(dark)
+          v-card-title Please Stand By. . .   
       router-view
         v-container
           v-layout
@@ -27,17 +31,16 @@
 
 <script>
 import LogInButton from "./components/logInButton"
+import AdminButton from "./components/adminButton"
+import AboutMenu from "./components/aboutMenu"
 import AmbassadorNavigation from "./components/ambassador/Navigation.vue"
 
 export default {
   name: "App",
-  components: { LogInButton, AmbassadorNavigation },
+  components: { AboutMenu, AdminButton, AmbassadorNavigation, LogInButton },
   data: () => ({
+    overlay: false,
     appBar: null,
-    exteriorRoutes: [
-      { text: "About", destination: "About" },
-      { text: "Contact", destination: "Contact" }
-    ]
   }),
   computed: {
     loggedIn(){
@@ -48,6 +51,8 @@ export default {
     }
   },
   created(){
+    this.$eventHub.$on("overlayOn", () => { this.overlay = true})
+    this.$eventHub.$on("overlayOff", () => { this.overlay = false})
     this.$store.dispatch("tryAutoLogin");
   }
 };

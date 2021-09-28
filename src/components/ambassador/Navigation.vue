@@ -2,6 +2,7 @@
     v-navigation-drawer(clipped app dark)
       v-list
         v-list-item(v-for="(route, i) in routes" :key="i" :to="{ name: route.destination }") {{ route.name }}
+        v-list-item(:to="{ name: 'AdminControlPanel' }") Admin Dashboard
 </template>
 
 <script>

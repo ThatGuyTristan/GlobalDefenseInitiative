@@ -1,23 +1,22 @@
 <template lang="pug">
-  div
-    v-card
-      v-card-title 
-        h3.mx-auto Ambassador Feedback
-      v-card-text
-        v-data-table(
-          :headers="headers" 
-          :items="items" 
-          :hide-default-header="!items.length"
-          :hide-default-footer="!items.length"
-          )
-          template(v-slot:top)
-            div.text-right
-              New(@submitted="load")
-          template(v-slot:item.overall="{ item }")
-            v-chip {{ getOverallScore(item) }}
-          template(v-slot:no-data) 
-            h3 No Feedback Notes Available 
-            New(@submitted="load" table)
+  v-card
+    v-card-title 
+      h3.mx-auto Ambassador Feedback
+    v-card-text
+      v-data-table(
+        :headers="headers" 
+        :items="items" 
+        :hide-default-header="!items.length"
+        :hide-default-footer="!items.length"
+        )
+        template(v-slot:top)
+          div.text-right
+            New(@submitted="load")
+        template(v-slot:item.overall="{ item }")
+          v-chip {{ getOverallScore(item) }}
+        template(v-slot:no-data) 
+          h3 No Feedback Notes Available 
+          New(@submitted="load" table)
 </template>
 
 <script>

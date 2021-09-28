@@ -12,14 +12,19 @@ const routes = [
     component: Home,
   },
   {
-    path: "/about",
-    name: "About",
-    component: () => import(/*webpackChunkName: "about" */ "../views/exterior/About.vue")
+    path: "/history",
+    name: "PublicHistory",
+    component: () => import(/*webpackChunkName: "about" */ "../views/exterior/History.vue")
   },
   {
-    path: "/contact",
-    name: "Contact",
-    component: () => import(/*webpackChunkName: "contact" */ "../views/exterior/Contact.vue")  
+    path: "/world_status",
+    name: "PublicStatus",
+    component: () => import(/*webpackChunkName: "contact" */ "../views/exterior/Status.vue")  
+  },
+  {
+    path: "/dossiers",
+    name: "PublicDossiers",
+    component: () => import(/*webpackChunkName: "contact" */ "../views/exterior/Dossiers.vue")  
   },
   {
     path: "/login",
@@ -27,8 +32,8 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "login" */ "../views/exterior/Login.vue"),
     beforeEnter: (to, from, next) => {
-      if(store.state.idToken){
-        next('/dashboard')
+      if(store.getters.authenticated){
+        next({ name: 'AmbassadorDashboard' })
       } else {
         next()
       }
@@ -58,6 +63,11 @@ const routes = [
         name: "AmbassadorReports",
         component: () => 
           import(/* webpackChunkName: "ambassador" */ "../views/ambassador/Reports.vue")
+      },
+      {
+        path: "control_panel",
+        name: "AdminControlPanel",
+        component: () => import(/* webpackChunkName: "ambassador" */ "../views/admin/ControlPanel.vue")
       }
     ]
   },
@@ -70,13 +80,12 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log(to.path);
-  console.log(store.getters.authenticated);
-  const publicRoutePaths = ["/", "/about", "/contact", "/login"]
+  console.log(to.path)
+  const publicRoutePaths = ["/", "/dossiers", "/history", "/world_status", "/login"]
 
-  if (!store.getters.authenticated && !publicRoutePaths.includes(to.path)){
+  if (!store.getters.authenticated && !publicRoutePaths.includes(to.path)) {
     next( { name: "Login" })
-  }else { 
+  } else { 
     next() 
   }
 })

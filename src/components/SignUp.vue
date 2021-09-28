@@ -21,6 +21,7 @@ export default {
     dialog: false,
     email: null,
     password: null,
+    displayName: null
   }),
   methods: {
     submit() {

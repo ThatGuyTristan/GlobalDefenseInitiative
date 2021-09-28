@@ -1,5 +1,5 @@
 <template lang="pug">
-    v-card.mx-auto(width="66%" height="100%")
+    v-card.mx-auto(tile width="66%" height="100%")
         v-card-title
             slot(name="header")
         v-card-text

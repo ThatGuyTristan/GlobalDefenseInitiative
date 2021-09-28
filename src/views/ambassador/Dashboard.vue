@@ -33,6 +33,9 @@ export default {
       return arr
     }
   },
+  beforeMount(){
+    this.$eventHub.$emit("overlayOff")
+  },
   created() {
     this.userObj = this.$store.dispatch("findUser");
   },

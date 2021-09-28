@@ -12,6 +12,7 @@ export default new Vuex.Store({
     email: null,
     displayName: null,
     user: null,
+    admin: false,
     key: process.env.VUE_APP_FIREBASE_API_KEY,
   },
   mutations: {
@@ -27,6 +28,9 @@ export default new Vuex.Store({
     deleteToken(state){
       state.idToken = null
       state.user = null
+    },
+    setAdmin(state){
+      state.admin = true
     }
   },
   actions: {
@@ -145,9 +149,14 @@ export default new Vuex.Store({
         userId: userId
       })
     },
+
     logOut({ commit }) {
       commit("deleteToken")
       localStorage.clear;
+    },
+
+    setAdmin({ commit }) {
+      commit("setAdmin")
     }
   },
   getters: {
@@ -159,6 +168,9 @@ export default new Vuex.Store({
     },
     authenticated(state){
       return state.idToken != null
+    },
+    adminL(state) {
+      return state.admin
     }
   },
   modules: {},
