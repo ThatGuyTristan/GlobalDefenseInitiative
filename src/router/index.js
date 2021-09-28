@@ -26,6 +26,14 @@ const routes = [
     name: "Login",
     component: () =>
       import(/* webpackChunkName: "login" */ "../views/exterior/Login.vue"),
+    beforeEnter: (to, from, next) => {
+      if(store.state.idToken){
+        next('/dashboard')
+      } else {
+        next()
+      }
+
+    }
   },
   {
     path: "/ambassador",
