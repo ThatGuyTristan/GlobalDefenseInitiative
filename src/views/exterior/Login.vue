@@ -8,7 +8,12 @@
     template(v-slot:actions)
       SignUp
       v-spacer
-      v-btn(@click="login") Connect
+      v-dialog(v-model="dialog" width="300")
+        template(v-slot:activator="{ on }")
+          v-btn(@click="login" v-on="on") Connect
+        v-card
+          v-card-title Please stand by. . . 
+          v-card-text
 </template>
 
 <script>
@@ -19,6 +24,7 @@ export default {
   name: "Login",
   components: { PrimaryLayout, SignUp },
   data: () => ({
+    dialog: false,
     username: null,
     password: null,
   }),
@@ -28,7 +34,11 @@ export default {
         email: this.username,
         password: this.password,
       }).then(() => {
-        this.$router.go({ name: "Dashboard" })
+        this.dialog = true
+        setTimeout(() => {
+          this.dialog = false;
+          this.$router.push({ name: "AmbassadorDashboard" })
+        }, 2000)
       })
       ;
     },

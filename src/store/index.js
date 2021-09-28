@@ -2,7 +2,6 @@ import Vue from "vue";
 import Vuex from "vuex";
 import axiosAuth from "@/axios-auth";
 import axios from "axios";
-import router from "../router"
 
 Vue.use(Vuex);
 
@@ -11,7 +10,7 @@ export default new Vuex.Store({
     idToken: null,
     userId: null,
     email: null,
-    ambassador: null,
+    displayName: null,
     user: null,
     key: process.env.VUE_APP_FIREBASE_API_KEY,
   },
@@ -20,7 +19,7 @@ export default new Vuex.Store({
       console.log("US", userData)
       state.idToken = userData.token;
       state.userId = userData.userId;
-      state.ambassador = userData.ambassador
+      state.displayName = userData.displayName
     },
     storeUser(state, user) {
       state.user = user;
@@ -62,7 +61,6 @@ export default new Vuex.Store({
     },
 
     findUser({ commit, state }) {
-      console.log("ID", state.idToken);
       if (!state.idToken) {
         return;
       }
@@ -78,8 +76,6 @@ export default new Vuex.Store({
             users.push(user);
           }
 
-          console.log(users);
-
           // const user = users.filter(obj => {
           //   if(!obj.authData){ return }
           //   return obj.authData.email === state.email 
@@ -88,6 +84,7 @@ export default new Vuex.Store({
 
           console.log("User here:", user);
           commit("storeUser", user);
+          return user
         })
         .catch((err) => console.log(err));
     },
@@ -100,14 +97,13 @@ export default new Vuex.Store({
           returnSecureToken: true,
         })
         .then((resp) => {
-          console.log("USER", resp.data);
+          console.log("LOGIN USER", resp);
           commit("authUser", {
             token: resp.data.idToken,
             userId: resp.data.localId,
-            ambassador: true,
-            email: resp.email,
+            email: resp.data.email,
+            name: resp.data.displayName
           });
-          router.push({ name: "Dashboard" })
         });
     },
 
@@ -122,8 +118,8 @@ export default new Vuex.Store({
     ambassador(state){
       return state.ambassador
     },
-    auth(state){
-      return state.idToken
+    authenticated(state){
+      return state.idToken != null
     }
   },
   modules: {},

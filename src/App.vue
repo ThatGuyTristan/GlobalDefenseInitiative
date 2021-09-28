@@ -14,11 +14,10 @@
         h3(id="titleText") Alumni MultiNational
         div.ml-5
           v-btn(text dark v-for="(route, i) in exteriorRoutes" :key="i" :to=" { name: route.destination }") {{ route.text }}
+          v-btn.mx-2(text dark v-if="loggedIn" :to="{ name: 'AmbassadorDashboard' }") Ambassador Dashboard
       v-spacer
       LogInButton
-    v-navigation-drawer(clipped app v-model="appBar" v-if="loggedIn")
-      v-list
-        v-list-item(v-for="i in 10") {{ i }} Ello
+    AmbassadorNavigation(v-if="loggedIn")
     v-main(id="main")  
       router-view
         v-container
@@ -28,10 +27,11 @@
 
 <script>
 import LogInButton from "./components/logInButton"
+import AmbassadorNavigation from "./components/ambassador/Navigation.vue"
 
 export default {
   name: "App",
-  components: { LogInButton },
+  components: { LogInButton, AmbassadorNavigation },
   data: () => ({
     appBar: null,
     exteriorRoutes: [
@@ -41,7 +41,7 @@ export default {
   }),
   computed: {
     loggedIn(){
-      return this.$store.state.idToken != null;
+      return this.$store.getters.authenticated;
     },
     width(){
       return this.$vuetify.breakpoint.xs ? "100%" : "66%"

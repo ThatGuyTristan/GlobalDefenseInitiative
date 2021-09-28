@@ -1,18 +1,26 @@
 <template lang="pug">
   PrimaryLayout
     template(v-slot:header)
-      h3.mx-auto Our Mission
+      h3.mx-auto About Alumni MultiNational
     template(v-slot:body)
-      p.px-5.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      h4.mx-auto About the Holden Meteorite
+      p.px-3(v-for="(txt, i) in backstory") {{ txt }}
+      h4.mx-auto Three Years Later. . . 
+      p.px-3(v-for="(txt, i) in escalation") {{ txt }}
+
 </template>
 
 <script>
 import PrimaryLayout from "../layouts/Primary.vue"
+import BackstoryText from "/src/assets/text/backstory"
+import EscalationText from "/src/assets/text/escalation"
 
 export default {
   name: "About",
-
   components: {PrimaryLayout},
+  data: () => ({
+    backstory: BackstoryText, 
+    escalation: EscalationText
+  })
 };
 </script>

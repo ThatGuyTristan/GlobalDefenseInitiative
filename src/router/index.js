@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/exterior/Home.vue";
+import store from "../store/index"
 
 Vue.use(VueRouter);
 
@@ -27,10 +28,30 @@ const routes = [
       import(/* webpackChunkName: "login" */ "../views/exterior/Login.vue"),
   },
   {
-    path: "/dashboard",
-    name: "Dashboard",
+    path: "/ambassador",
+    name: "AmbassadorDashboard",
     component: () =>
-      import(/* webpackChunkName: "dashboard" */ "../components/dashboard.vue")
+      import(/* webpackChunkName: "ambassador" */ "../views/ambassador/Dashboard.vue"),
+    children: [
+      {
+        path: "dossiers",
+        name: "AmbassadorDossiers",
+        component: () => 
+          import(/* webpackChunkName: "ambassador" */ "../views/ambassador/Dossiers.vue")
+      },
+      {
+        path: "feedback",
+        name: "AmbassadorFeedback",
+        component: () => 
+          import(/* webpackChunkName: "ambassador" */ "../views/ambassador/feedback/Index.vue")
+      },
+      {
+        path: "reports",
+        name: "AmbassadorReports",
+        component: () => 
+          import(/* webpackChunkName: "ambassador" */ "../views/ambassador/Reports.vue")
+      }
+    ]
   },
 ];
 
@@ -40,14 +61,16 @@ const router = new VueRouter({
   routes,
 });
 
-// router.beforeEach((to, from, next) => {
-//   const store = require('../store/index')
-//   console.log("pspspsp", store.getters.auth);
-//   if (!Vue.$store.getters.auth){
-//     next( { name: "Login" })
-//   }else { 
-//     next() 
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  console.log(to.path);
+  console.log(store.getters.authenticated);
+  const publicRoutePaths = ["/", "/about", "/contact", "/login"]
+
+  if (!store.getters.authenticated && !publicRoutePaths.includes(to.path)){
+    next( { name: "Login" })
+  }else { 
+    next() 
+  }
+})
 
 export default router;
