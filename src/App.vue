@@ -46,6 +46,9 @@ export default {
     width(){
       return this.$vuetify.breakpoint.xs ? "100%" : "66%"
     }
+  },
+  created(){
+    this.$store.dispatch("tryAutoLogin");
   }
 };
 </script>

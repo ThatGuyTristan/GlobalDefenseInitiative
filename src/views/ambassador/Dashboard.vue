@@ -1,7 +1,7 @@
 <template lang="pug">
   PrimaryLayout
     template(v-slot:header)
-      h3.mx-auto Welcome back, {{ user.displayName }}.
+      h3.mx-auto Welcome back, {{ user.authData.displayName }}.
       v-spacer
       h3.mx-auto {{ futureDate }}
     template(v-slot:body)
@@ -28,14 +28,13 @@ export default {
     futureDate(){
       let timestamp = new Date(new Date().setFullYear(new Date().getFullYear() + 50))
       let arr = timestamp.toString().split(" ")
-      console.log(arr.length)
-      arr = arr.slice(0, 4)
+      arr = arr.slice(1, 4)
       arr = arr.join(" ")
-      return arr + " " +  new Date().toLocaleTimeString();
+      return arr
     }
   },
   created() {
-    this.user = this.$store.dispatch("findUser");
+    this.userObj = this.$store.dispatch("findUser");
   },
 };
 </script>

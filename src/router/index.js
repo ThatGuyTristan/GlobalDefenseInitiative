@@ -37,7 +37,7 @@ const routes = [
         path: "dossiers",
         name: "AmbassadorDossiers",
         component: () => 
-          import(/* webpackChunkName: "ambassador" */ "../views/ambassador/Dossiers.vue")
+          import(/* webpackChunkName: "ambassador" */ "../views/ambassador/dossiers/Index.vue")
       },
       {
         path: "feedback",

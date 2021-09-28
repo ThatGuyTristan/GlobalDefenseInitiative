@@ -30,21 +30,35 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    setLogoutTimer({ commit }, expirationTime) {
+      setTimeout(() => {
+        commit('deleteToken')
+      }, expirationTime * 1000)
+    },
     signUp({ commit, dispatch }, authData) {
       axiosAuth
         .post(`accounts:signUp?key=${this.state.key}`, {
           email: authData.email,
           password: authData.password,
+          displayName: authData.displayName,
           returnSecureToken: true,
         })
         .then((resp) => {
-          console.log(resp);
+          console.log("SignUp data", resp.data);
           commit("authUser", {
             token: resp.data.idToken,
             userId: resp.data.localId,
             email: authData.email
           });
+
+          const now = new Date()
+          const expirationDate = new Date(now.getTime() + (resp.data.expiresIn * 1000))
+
+          localStorage.setItem('token', resp.data.idToken)
+          localStorage.setItem('expirationDate', expirationDate)
+          localStorage.setItem('userId', resp.data.localId)
           dispatch("storeUser", { authData });
+          dispatch('setLogoutTimer', resp.data.expiresIn)
         })
         .catch((err) => {
           console.log(err);
@@ -56,7 +70,7 @@ export default new Vuex.Store({
       }
       axios
         .post(`/users.json?auth=${state.idToken}`, userData)
-        .then((resp) => console.log(resp))
+        .then((resp) => console.log("Insert into Users table:", resp))
         .catch((err) => console.log(err));
     },
 
@@ -76,10 +90,6 @@ export default new Vuex.Store({
             users.push(user);
           }
 
-          // const user = users.filter(obj => {
-          //   if(!obj.authData){ return }
-          //   return obj.authData.email === state.email 
-          // })
           const user = users[users.length - 1]
 
           console.log("User here:", user);
@@ -89,7 +99,7 @@ export default new Vuex.Store({
         .catch((err) => console.log(err));
     },
 
-    login({ commit }, authData) {
+    login({ commit, dispatch }, authData) {
       axiosAuth
         .post(`accounts:signInWithPassword?key=${this.state.key}`, {
           email: authData.email,
@@ -104,11 +114,40 @@ export default new Vuex.Store({
             email: resp.data.email,
             name: resp.data.displayName
           });
-        });
+
+          const now = new Date()
+          const expirationDate = new Date(now.getTime() + (resp.data.expiresIn * 1000))
+
+          localStorage.setItem('token', resp.data.idToken)
+          localStorage.setItem('userId', resp.data.localId)
+          localStorage.setItem('expirationDate', expirationDate)
+
+          dispatch('setLogoutTimer', resp.data.expiresIn)
+        })
+        .catch(error => console.log(error));
     },
 
+    tryAutoLogin({ commit }) {
+      const token = localStorage.getItem('token')
+      if(!token){
+        return;
+      }
+      const expirationDate = localStorage.getItem('expirationDate')
+      const now = new Date() 
+
+      if(now >= expirationDate) {
+        return;
+      }
+
+      const userId = localStorage.getItem('userId')
+      commit('authUser', {
+        token: token,
+        userId: userId
+      })
+    },
     logOut({ commit }) {
       commit("deleteToken")
+      localStorage.clear;
     }
   },
   getters: {
