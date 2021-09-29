@@ -152,7 +152,7 @@ export default new Vuex.Store({
 
     logOut({ commit }) {
       commit("deleteToken")
-      localStorage.clear;
+      localStorage.clear();
     },
 
     setAdmin({ commit }) {

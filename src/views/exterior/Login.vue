@@ -3,18 +3,19 @@
     template(v-slot:header)
       h3.mx-auto Network LogIn
     template(v-slot:body)
-      div.text-center 
-        v-text-field(v-model="username" label="Identifier (E-mail)")
-        v-text-field(v-model="password" label="Password")
-    template(v-slot:actions)
-      SignUp
-      v-spacer
-      v-dialog(v-model="dialog" width="300")
-        template(v-slot:activator="{ on }")
-          v-btn(@click="login" v-on="on") Connect
-        v-card
-          v-card-title Please stand by. . . 
-          v-card-text
+      div.text-center
+        v-card.mx-auto(dark flat width="500")
+          v-card-title
+            h4.mx-auto Ambassador Network Access 
+          v-card-text 
+            v-row(no-gutters) 
+              v-text-field(v-model="username" label="Identifier (E-mail)")
+            v-row(no-gutters)
+              v-text-field(v-model="password" label="Password")
+          v-card-actions 
+            SignUp
+            v-spacer
+            v-btn(color="green darken-4" text @click="login" v-on="on") Connect
 </template>
 
 <script>

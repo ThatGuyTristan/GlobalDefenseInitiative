@@ -2,11 +2,13 @@
   PrimaryLayout
     template(v-slot:header)
       div.text-center.mx-auto 
-        .h3 Public Dossiers
-        .caption These Soldier Profiles are visable to the public on a voluntary basis only.
+        h3 Staff Dossiers
+        .caption These profiles are visable to the public on a voluntary basis only.
     template(v-slot:body)
-      v-row(no-gutters).text-center
-        SoldierDossier(v-for="(item, i) in dossiers" :key="i" :id="item.id")
+      v-container
+        v-row(justify="center" no-gutters)
+          v-col(v-for="(item, i) in dossiers" :key="i") 
+            SoldierDossier(:id="item.id")
 </template>
 
 <script>
@@ -22,7 +24,8 @@ export default {
     dossiers: []
   }),
   beforeMount(){
-    db.ref('dossiers').once('value', snapshot => {
+    const ref = db.ref('dossiers')
+    ref.orderByChild('public').equalTo(true).once('value', snapshot => {
       const dossiers = snapshot.val()
       this.dossiers.push(dossiers)
 

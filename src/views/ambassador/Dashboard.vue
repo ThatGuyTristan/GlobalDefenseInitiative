@@ -3,7 +3,7 @@
     template(v-slot:header)
       h3.mx-auto Welcome back, {{ user.authData.displayName }}.
       v-spacer
-      h3.mx-auto {{ futureDate }}
+      h3.mx-auto {{ getFutureDate() }}
     template(v-slot:body)
       router-view
 </template>
@@ -24,17 +24,12 @@ export default {
     },
     ambassador(){
       return this.$store.getters.ambassador;
-    },
-    futureDate(){
-      let timestamp = new Date(new Date().setFullYear(new Date().getFullYear() + 50))
-      let arr = timestamp.toString().split(" ")
-      arr = arr.slice(1, 4)
-      arr = arr.join(" ")
-      return arr
     }
   },
   beforeMount(){
-    this.$eventHub.$emit("overlayOff")
+    setInterval(() => {
+      this.$eventHub.$emit("overlayOff")
+    }, 2000)
   },
   created() {
     this.userObj = this.$store.dispatch("findUser");

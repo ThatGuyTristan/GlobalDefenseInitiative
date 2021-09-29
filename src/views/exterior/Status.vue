@@ -1,7 +1,9 @@
 <template lang="pug">
   PrimaryLayout
     template(v-slot:header)
-      h3.mx-auto World Status
+      div.text-center.mx-auto
+        h3.mx-auto World Status
+        .caption Updated on a monthly basis
     template(v-slot:body)
 
 </template>
