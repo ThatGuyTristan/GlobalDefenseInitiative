@@ -4,6 +4,8 @@
       h4 {{ title }}
     v-card-text
       v-sparkline(auto-draw show-labels :value="value" :gradient="gradient" :labels="labels")
+        template(v-slot:label="item") {{ item.value }} M
+
 </template>
 
 <script>

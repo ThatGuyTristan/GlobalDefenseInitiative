@@ -79,5 +79,6 @@ export default {
 #main {
   background-image: url("./assets/images/dark_earth.jpeg");
   background-size: cover;
+  background-attachment: fixed;
 }
 </style>

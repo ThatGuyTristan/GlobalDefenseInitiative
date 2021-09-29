@@ -1,8 +1,8 @@
 <template lang="pug">
   v-dialog(persistent v-model="dialog" height="500" width="800")
     template(v-slot:activator=" { on }")
-      v-btn(v-on="on" v-if="table") New Note
-      v-btn(v-else v-on="on") + New Note
+      v-btn(v-on="on" v-if="table") Submit Feedback
+      v-btn(v-else v-on="on") + Submit Feedback
     v-card
       v-card-title
         h3 New Feedback Note
@@ -16,6 +16,13 @@
       v-card-text
         v-text-field(v-model="title" label="Title")
         v-textarea(v-model="body" label="Body")
+        v-row
+          v-col(cols="4")
+            v-text-field(v-model="safety" type="number" max="5" label="Safety")
+          v-col(cols="4")
+            v-text-field(v-model="interaction" type="number" max="5" label="Interaction")
+          v-col(cols="4")
+            v-text-field(v-model="cleanup" type="number" max="5" label="Cleanup")
       v-card-actions 
         v-btn(text @click="dialog = false") Cancel
         v-spacer
@@ -33,9 +40,9 @@ export default {
     shorthandWords: ["SIQ: Soldier in Question", "PIC: Person in Charge", "DOI: Date of Incident", "FUR: Follow Up Requested"],
     title: null,
     body: null,
-    safety: 3,
-    interaction: 2,
-    cleanup: 1,
+    safety: 0,
+    interaction: 0,
+    cleanup: 0
   }),
   watch:{
     dialog(val){
@@ -61,13 +68,15 @@ export default {
       this.body = newString
     },
     submit(){
+      let author = this.$store.getters.user.displayName ? this.$store.getters.user.displayName : "Unknown"
       let data = {
         title: this.title,
         body: this.body,
         safety: this.safety, 
         interaction: this.interaction,
         cleanup: this.cleanup,
-        date: new Date().getDate()
+        date: this.getFutureDate(),
+        author: author
       }
       axios
         .post(`/feedbacknotes.json?auth=${this.$store.state.idToken}`, data)

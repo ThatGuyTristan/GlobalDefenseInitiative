@@ -11,7 +11,7 @@
             v-row(no-gutters) 
               v-text-field(v-model="username" label="Identifier (E-mail)")
             v-row(no-gutters)
-              v-text-field(v-model="password" label="Password")
+              v-text-field(type="password" v-model="password" label="Password")
           v-card-actions 
             SignUp
             v-spacer
@@ -32,11 +32,13 @@ export default {
   }),
   methods: {
     login() {
-     this.overlay = true;
-      this.$store.dispatch("login", {
+      this.overlay = true;
+      this.$store
+        .dispatch("login", {
         email: this.username,
         password: this.password,
-      }).then(() => {
+      })
+      .then(() => {
         this.$eventHub.$emit("overlayOn")
         setTimeout(() => {
           this.$router.push({ name: "AmbassadorDashboard" })

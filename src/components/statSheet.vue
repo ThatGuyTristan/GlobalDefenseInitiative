@@ -1,7 +1,7 @@
 <template lang="pug">
   v-sheet.py-5.mx-auto(width="150" outlined)
     div.text-center
-      v-progress-circular(size="100" :value="value" :color="color") {{ value }} %
+      v-progress-circular(size="100" rotate="-90" :value="value" :color="color") {{ value }} %
       h4.mt-5 {{ label }}
 </template>
 

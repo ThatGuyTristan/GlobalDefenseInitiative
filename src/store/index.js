@@ -117,7 +117,10 @@ export default new Vuex.Store({
             userId: resp.data.localId,
             email: resp.data.email,
             name: resp.data.displayName
-          });
+          })
+        .catch((error) => {
+          console.log("E", error)
+        });
 
           const now = new Date()
           const expirationDate = new Date(now.getTime() + (resp.data.expiresIn * 1000))

@@ -44,19 +44,19 @@ export default {
       { label: "Scientific", value: "90", color: "blue" },
       { label: "Environmental", value: "48", color: "green" },
       { label: "Practical", value: "87", color: "orange" },
-      { label: "Military", value: "67", color: "red" }
+      { label: "Military", value: "34", color: "red" }
     ],
     sparklines: [ 
       {  
         title: "Historical",
-        sparks: [ 13, 18, 28, 91 ],
-        labels: [ '-120', '-90', '-60', '-30'],
+        sparks: [ 12, 18, 30, 45, 72 ],
+        labels: [ '-60', '-48', '-36',  '-24', '-12'],
         color: ['red', 'green']
       },
       {  
         title: "Predicted",
-        sparks: [ 270, 1010, 3030, 10000 ],
-        labels: [ '+30', '+60', '+90', '+120'],
+        sparks: [ 108, 260, 390, 585, 878 ],
+        labels: [ '12', '24', '36', '48', '60'],
         color: ['red darken-5', 'red']
       },
     ]
