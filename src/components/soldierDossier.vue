@@ -1,15 +1,15 @@
 <template lang="pug">
   v-dialog(width="500" height="300" v-model="dialog")
     template(v-slot:activator="{ on }")
-      v-card.ma-2(dark tile width="250" height="250" v-on="on")
+      v-card.ma-2(tile width="250" height="250" v-on="on")
         v-card-title
           .header.mx-auto {{ dossier.name }}
         v-card-text
           v-img(v-if="dossier.image" contain max-height="200" max-width="150" :src="`@/assets/images/${dossier.image}.jpeg`")
           v-img.mx-auto(v-else contain max-height="200" max-width="150" src="@/assets/images/jacob.jpeg")
           .header.mt-2.text-center {{ dossier.rank }}
-    v-card(dark tile)
-      v-card-title(tile) 
+    v-card(tile)
+      v-card-title 
         .h5 {{ dossier.name }}
         v-spacer
         .h6 {{ dossier.rank }}

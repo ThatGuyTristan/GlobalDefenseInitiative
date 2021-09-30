@@ -5,10 +5,10 @@
         h3 Staff Dossiers
         .caption These profiles are visable to the public on a voluntary basis only.
     template(v-slot:body)
-      v-container
-        v-row(justify="center" no-gutters)
-          v-col(v-for="(item, i) in dossiers" :key="i") 
-            SoldierDossier(:id="item.id")
+      v-card(tile)
+        v-card-text
+          v-row(justify="center" no-gutters)
+            SoldierDossier(:id="item.id" v-for="(item, i) in dossiers" :key="i")
 </template>
 
 <script>
