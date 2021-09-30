@@ -7,7 +7,7 @@
     template(v-slot:body)
       v-card(dark)
         v-card-text
-          div.px-16.pt-16
+          div.px-16
             h2.px-16 January 18th, 2023. . .         
             p.body-1.px-16(v-for="(txt, i) in backstory") {{ txt }}
             template  
