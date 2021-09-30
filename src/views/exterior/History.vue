@@ -10,8 +10,8 @@
           div.px-16
             h2.px-16 January 18th, 2023. . .         
             p.body-1.px-16(v-for="(txt, i) in backstory") {{ txt }}
-            template  
-              v-parallax.px-16(height="250" dark src="@/assets/images/asteroid.jpg")
+            template.px-16  
+              v-parallax.px-16(height="250" width="100" dark src="@/assets/images/asteroid.jpg")
             p.body-1.px-16(v-for="(txt, i) in escalation") {{ txt }}
             p.body-1.px-16(v-for="(txt, i) in strategies") {{ txt }}
 </template>

@@ -63,7 +63,7 @@ export default {
     },
     addExcursion(){
       axios
-        .post(`excurions.json?auth=${this.$store.state.idToken}`, this.excursion)
+        .post(`/excursions.json?auth=${this.$store.state.idToken}`, this.excursion)
         .then((resp) => { 
           console.log(resp), 
           this.reset(); 

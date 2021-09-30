@@ -76,6 +76,15 @@ export default {
   src: url("./assets/fonts/SquareOneBold.ttf");
 }
 
+@font-face {
+  font-family: "redAlert";
+  src: url("./assets/fonts/RedAlert.ttf")
+}
+
+.body {
+  font-family: "redAlert"
+}
+
 #main {
   background-image: url("./assets/images/dark_earth.jpeg");
   background-size: cover;

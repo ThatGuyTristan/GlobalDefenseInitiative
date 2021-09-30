@@ -5,8 +5,7 @@
         v-card-title
           .header.mx-auto {{ dossier.name }}
         v-card-text
-          v-img(v-if="dossier.image" contain max-height="200" max-width="150" :src="`@/assets/images/${dossier.image}.jpeg`")
-          v-img.mx-auto(v-else contain max-height="200" max-width="150" src="@/assets/images/jacob.jpeg")
+          v-img.mx-auto(contain max-height="150" max-width="150" :src="require(`@/assets/images/personnel/${imgUrl}`)")
           .header.mt-2.text-center {{ dossier.rank }}
     v-card(tile)
       v-card-title 
@@ -17,8 +16,7 @@
         v-container.mx-auto
           v-row.mx-auto
             v-col
-              v-img(v-if="dossier.image" :src="`@/assets/images/${dossier.image}.jpeg`" contain)
-              v-img(v-else contain max-height="200" max-width="150" src="@/assets/images/jacob.jpeg")
+              v-img(:src="require(`@/assets/images/personnel/${imgUrl}`)" contain)
             v-col
               v-row.py-1(v-for="(item, key) in dossier" no-gutters)
                 v-col
@@ -31,10 +29,8 @@
 </template>
 
 <script>
-// import axios from "axios"
 import { db } from "/src/db"
 
-// const dossiers = db.ref('dossiers')
 export default {
   props: {
     id: { type: [String, Number], default: null }
@@ -43,11 +39,15 @@ export default {
     dialog: false,
     dossier: null
   }),
+  computed: {
+    imgUrl(){
+      let url = this.dossier.image ? this.dossier.image + '.jpeg' : 'unknown.jpeg'
+      return url
+    }
+  },
   beforeMount(){
     db.ref('dossiers/' + this.id).once('value', snapshot => {
-      console.log("SS", snapshot.val())
       const document = snapshot.val()
-      console.log("DOCUMENT", document);
       this.dossier = document
       })
     }

@@ -1,28 +1,46 @@
 <template lang="pug">
   PrimaryLayout
     template(v-slot:header)
-      h3.mx-auto Excursion Reports
+      div.text-center.mx-auto
+        h3.mx-auto Excursion Reports
+        .caption A limited number of these reports are available to Ambassadors.
     template(v-slot:body)
-      h3.mx-auto Testing
+      v-card(tile dark width="100%")
+        v-card-text
+          v-row(justify="center" no-gutters)
+            excursionReport(
+              v-for="(item, i) in items"
+              :key="i"
+              :body="item.body"
+              :date="item.date"
+            )
 </template>
 
 <script>
 import PrimaryLayout from "/src/views/layouts/Primary.vue"
-// import firebase from "/src/mixins/firebase"
+import { db } from "/src/db"
 
 export default {
-  // mixins: [firebase],
-  components: { PrimaryLayout },
+  components: { 
+    PrimaryLayout, 
+    excursionReport: () => import("@/components/excursionReport")
+  },
   data: () => ({
     items: []
   }),
-  created(){
-    console.log("ROOT", this.$router.route)
-  },
   beforeMount(){
-    console.log("Beforemount");
-    // let data = this.readDatabase('feedback/')
-    // this.items = data
-    }
+    db.ref('excursions/').once('value', snapshot => {
+      const results = snapshot.val()
+      console.log("YO", results)
+      let items = []
+      for(let result in results){
+        let item = results[result]
+        console.log("ITEM")
+        items.push(item)
+      }
+
+      this.items = items
+    })
+  }
 }
 </script>
