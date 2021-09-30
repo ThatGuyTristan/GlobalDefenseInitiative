@@ -1,4 +1,4 @@
-<template lang="pug">
+ <template lang="pug">
   v-card.py-3.mx-auto(tile dark)
     v-card-title.text-center
       div.text-center.mx-auto
@@ -7,10 +7,9 @@
     v-card-text
       v-row
         Sparkline.ma-3(
-          v-for="stat in stats" 
+          v-for="stat in stats"
           type="bar"
-          tag="%"
-          :autodraw=false
+          tag="" 
           :title="stat.title" 
           :subtitle="stat.subtitle"
           :gradient="stat.color" 

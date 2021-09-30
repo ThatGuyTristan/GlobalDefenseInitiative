@@ -27,8 +27,5 @@ export default {
     labels: { type: Array, default: () => [] },
     value: { type: Array, default: () => [] }
   },
-  created(){
-    console.log("hi", this.title, this.gradient, this.labels, this.value)
-  }
 }
 </script>

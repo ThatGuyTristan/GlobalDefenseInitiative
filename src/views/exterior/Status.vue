@@ -17,7 +17,11 @@ import EnvironmentalCard from "@/components/Statuses/EnvironmentalCard"
 import PersonnelCard from "@/components/Statuses/PersonnelCard"
 
 export default {
-  components: {PrimaryLayout, FundingCard, EnvironmentalCard, PersonnelCard},
-  data: () => ({})
+  components: {
+    PrimaryLayout, 
+    FundingCard, 
+    EnvironmentalCard, 
+    PersonnelCard
+  },
 };
 </script>
