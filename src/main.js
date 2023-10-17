@@ -7,21 +7,6 @@ import axios from "axios";
 import EventHub from "vue-event-hub";
 import { rtdbPlugin} from "vuefire"
 
-// const firebaseConfig = {
-//   apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
-//   authDomain: "globaldefenseinitiative-154c8.firebaseapp.com",
-//   databaseURL: "https://globaldefenseinitiative-154c8-default-rtdb.firebaseio.com",
-//   projectId: "globaldefenseinitiative-154c8",
-//   storageBucket: "globaldefenseinitiative-154c8.appspot.com",
-//   messagingSenderId: "472326301037",
-//   appId: "1:472326301037:web:6be0bc81ee4b080a312664"
-// };
-
-// firebase.initializeApp(firebaseConfig)
-
-axios.defaults.baseURL =
-  "https://globaldefenseinitiative-154c8-default-rtdb.firebaseio.com/";
-
 Vue.config.productionTip = false;
 
 Vue.use(EventHub);
